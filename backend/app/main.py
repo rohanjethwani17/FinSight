@@ -17,7 +17,7 @@ async def lifespan(app: FastAPI):
     """Application lifespan handler."""
     # Startup
     settings = get_settings()
-    print(f"Starting FinSight RAG API...")
+    print("Starting FinSight RAG API...")
     print(f"Supported tickers: {settings.supported_tickers}")
     print(f"Pinecone index: {settings.pinecone_index_name}")
     print(f"OpenAI model: {settings.openai_chat_model}")
