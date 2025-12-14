@@ -21,6 +21,8 @@ interface ChatState {
   // Active contexts (for the reference panel)
   activeContexts: ContextChunk[];
   setActiveContexts: (contexts: ContextChunk[]) => void;
+  highlightedContextId: string | null;
+  setHighlightedContextId: (id: string | null) => void;
 
   // UI State
   isLoading: boolean;
@@ -71,6 +73,8 @@ export const useChatStore = create<ChatState>((set, get) => ({
   // Active contexts
   activeContexts: [],
   setActiveContexts: (contexts) => set({ activeContexts: contexts }),
+  highlightedContextId: null,
+  setHighlightedContextId: (id) => set({ highlightedContextId: id }),
 
   // UI State
   isLoading: false,

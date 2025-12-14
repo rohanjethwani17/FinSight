@@ -45,7 +45,7 @@ class RAGEngine:
             self._llm = ChatOpenAI(
                 model=self.settings.openai_chat_model,
                 openai_api_key=self.settings.openai_api_key,
-                temperature=0.1,
+                temperature=0,
                 streaming=True
             )
         return self._llm
@@ -106,7 +106,7 @@ Your task is to provide accurate, insightful analysis based ONLY on the provided
 ## CRITICAL RULES:
 1. Answer based ONLY on the context provided below. Do not use external knowledge.
 2. You MUST cite the 'section_header' (e.g., "Risk Factors", "Business Overview") for EVERY claim you make.
-3. Use citation format: [Section: Risk Factors, 2023]
+3. Use citation format: [Source: Section Name]
 4. If the context doesn't contain enough information to answer, say "Based on the available SEC filings, I don't have sufficient information to answer this question."
 5. Be precise with financial figures and dates.
 6. Maintain a professional, analytical tone appropriate for institutional investors.

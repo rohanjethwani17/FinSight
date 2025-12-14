@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     top_k_results: int = 5
     
     # Supported Tickers
-    supported_tickers: list[str] = ["AAPL", "MSFT", "GOOGL"]
+    supported_tickers: list[str] = ["AAPL", "MSFT", "GOOGL", "TSLA", "NVDA", "AMZN"]
     
     class Config:
         env_file = ".env"

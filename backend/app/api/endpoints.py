@@ -175,7 +175,10 @@ async def get_available_filings():
     company_names = {
         "AAPL": "Apple Inc.",
         "MSFT": "Microsoft Corporation",
-        "GOOGL": "Alphabet Inc."
+        "GOOGL": "Alphabet Inc.",
+        "TSLA": "Tesla, Inc.",
+        "NVDA": "NVIDIA Corporation",
+        "AMZN": "Amazon.com, Inc."
     }
     
     filings = [
@@ -205,7 +208,10 @@ async def get_filing_details(ticker: str):
     company_names = {
         "AAPL": "Apple Inc.",
         "MSFT": "Microsoft Corporation",
-        "GOOGL": "Alphabet Inc."
+        "GOOGL": "Alphabet Inc.",
+        "TSLA": "Tesla, Inc.",
+        "NVDA": "NVIDIA Corporation",
+        "AMZN": "Amazon.com, Inc."
     }
     
     return {

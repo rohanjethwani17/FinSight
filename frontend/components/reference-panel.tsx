@@ -3,11 +3,28 @@
 import { FileText, ExternalLink, ChevronDown, ChevronUp, TrendingUp } from 'lucide-react';
 import { useChatStore } from '@/lib/store';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function ReferencePanel() {
-  const { activeContexts, selectedTicker } = useChatStore();
+  const { activeContexts, selectedTicker, highlightedContextId, setHighlightedContextId } = useChatStore();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
+
+  // Scroll to highlighted context
+  useEffect(() => {
+    if (highlightedContextId) {
+      const element = document.getElementById(`context-${highlightedContextId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Auto-expand the highlighted context
+        const index = activeContexts.findIndex(c => c.id === highlightedContextId);
+        if (index !== -1) {
+          setExpandedIndex(index);
+        }
+        // Clear highlight after animation
+        setTimeout(() => setHighlightedContextId(null), 2000);
+      }
+    }
+  }, [highlightedContextId, activeContexts, setHighlightedContextId]);
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -30,7 +47,7 @@ export function ReferencePanel() {
   return (
     <div className="flex h-full flex-col bg-zinc-900">
       {/* Header */}
-      <div className="border-b border-zinc-800 px-4 py-3">
+      <div className="border-b border-zinc-800 px-3 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <FileText className="h-5 w-5 text-blue-500" />
@@ -65,10 +82,17 @@ export function ReferencePanel() {
         ) : (
           <div className="divide-y divide-zinc-800">
             {activeContexts.map((context, index) => (
-              <div key={context.id} className="group">
+              <div
+                key={context.id}
+                id={`context-${context.id}`}
+                className={cn(
+                  "group transition-colors duration-500",
+                  highlightedContextId === context.id && "bg-yellow-900/20 ring-1 ring-yellow-500/50"
+                )}
+              >
                 <button
                   onClick={() => toggleExpand(index)}
-                  className="flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-zinc-800/50"
+                  className="flex w-full items-start gap-3 px-3 py-2 text-left transition-colors hover:bg-zinc-800/50"
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">

@@ -11,6 +11,9 @@ const companyLogos: Record<string, string> = {
   AAPL: '🍎',
   MSFT: '🪟',
   GOOGL: '🔍',
+  TSLA: '🚗',
+  NVDA: '👁️',
+  AMZN: '📦',
 };
 
 export function TickerSelector() {
@@ -28,6 +31,9 @@ export function TickerSelector() {
           { ticker: 'AAPL', company_name: 'Apple Inc.', available: true },
           { ticker: 'MSFT', company_name: 'Microsoft Corporation', available: true },
           { ticker: 'GOOGL', company_name: 'Alphabet Inc.', available: true },
+          { ticker: 'TSLA', company_name: 'Tesla, Inc.', available: true },
+          { ticker: 'NVDA', company_name: 'NVIDIA Corporation', available: true },
+          { ticker: 'AMZN', company_name: 'Amazon.com, Inc.', available: true },
         ]);
       }
     };

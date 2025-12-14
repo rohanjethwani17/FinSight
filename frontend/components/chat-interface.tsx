@@ -2,9 +2,12 @@
 
 import { useState, useRef, useEffect, FormEvent, KeyboardEvent } from 'react';
 import { Send, Loader2, Bot, User, AlertCircle, Trash2 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { useChatStore } from '@/lib/store';
 import { streamChat, ContextChunk } from '@/lib/api';
 import { cn, formatTimestamp } from '@/lib/utils';
+import { CitationBadge } from '@/components/citation-badge';
 
 export function ChatInterface() {
   const [input, setInput] = useState('');
@@ -103,7 +106,7 @@ export function ChatInterface() {
   return (
     <div className="flex h-full flex-col bg-zinc-950">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
+      <div className="flex items-center justify-between border-b border-zinc-800 px-3 py-2">
         <div className="flex items-center gap-2">
           <Bot className="h-5 w-5 text-emerald-500" />
           <span className="font-semibold text-zinc-100">FinSight AI</span>
@@ -121,7 +124,7 @@ export function ChatInterface() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
+      <div className="flex-1 overflow-y-auto px-3 py-3">
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center text-center">
             <Bot className="h-12 w-12 text-zinc-700" />
@@ -171,8 +174,82 @@ export function ChatInterface() {
                       : 'bg-zinc-800 text-zinc-100'
                   )}
                 >
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                    {message.content || (
+                  <div className="prose prose-invert max-w-none text-sm leading-relaxed">
+                    {message.content ? (
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          p: ({ children }) => (
+                            <p className="mb-2 last:mb-0">
+                              {Array.isArray(children)
+                                ? children.map((child, i) => {
+                                  if (typeof child === 'string') {
+                                    return child.split(/(\[Source: [^\]]+\])/g).map((part, j) => {
+                                      const match = part.match(/^\[Source: (.+)\]$/);
+                                      if (match) {
+                                        return (
+                                          <CitationBadge
+                                            key={`${i}-${j}`}
+                                            source={match[1]}
+                                            className="mx-1"
+                                          />
+                                        );
+                                      }
+                                      return part;
+                                    });
+                                  }
+                                  return child;
+                                })
+                                : typeof children === 'string'
+                                  ? (children as string).split(/(\[Source: [^\]]+\])/g).map((part, j) => {
+                                    const match = part.match(/^\[Source: (.+)\]$/);
+                                    if (match) {
+                                      return (
+                                        <CitationBadge
+                                          key={j}
+                                          source={match[1]}
+                                          className="mx-1"
+                                        />
+                                      );
+                                    }
+                                    return part;
+                                  })
+                                  : children}
+                            </p>
+                          ),
+                          table: ({ children }) => (
+                            <div className="my-4 overflow-x-auto rounded-lg border border-zinc-700 bg-zinc-900/50 p-2">
+                              <table className="w-full text-left text-xs font-mono">{children}</table>
+                            </div>
+                          ),
+                          thead: ({ children }) => (
+                            <thead className="border-b border-zinc-700 bg-zinc-800/50 text-zinc-400">
+                              {children}
+                            </thead>
+                          ),
+                          th: ({ children }) => (
+                            <th className="px-4 py-2 font-medium">{children}</th>
+                          ),
+                          td: ({ children }) => (
+                            <td className="px-4 py-2 border-t border-zinc-800">{children}</td>
+                          ),
+                          code: ({ children, className }) => {
+                            const match = /language-(\w+)/.exec(className || '');
+                            return match ? (
+                              <div className="my-2 rounded-md bg-zinc-900 p-2 font-mono text-xs">
+                                <code className={className}>{children}</code>
+                              </div>
+                            ) : (
+                              <code className="rounded bg-zinc-700/50 px-1 py-0.5 font-mono text-xs text-emerald-300">
+                                {children}
+                              </code>
+                            );
+                          },
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
+                    ) : (
                       <span className="flex items-center gap-2 text-zinc-400">
                         <Loader2 className="h-4 w-4 animate-spin" />
                         Analyzing...
@@ -209,7 +286,7 @@ export function ChatInterface() {
       )}
 
       {/* Input */}
-      <div className="border-t border-zinc-800 p-4">
+      <div className="border-t border-zinc-800 p-3">
         <form onSubmit={handleSubmit} className="flex gap-2">
           <div className="relative flex-1">
             <textarea

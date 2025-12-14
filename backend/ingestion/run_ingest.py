@@ -50,7 +50,10 @@ SEC_EDGAR_BASE = "https://www.sec.gov/cgi-bin/browse-edgar"
 COMPANY_CIK = {
     "AAPL": "0000320193",
     "MSFT": "0000789019",
-    "GOOGL": "0001652044"
+    "GOOGL": "0001652044",
+    "TSLA": "0001318605",
+    "NVDA": "0001045810",
+    "AMZN": "0001018724"
 }
 
 # Text splitter configuration
@@ -173,6 +176,66 @@ def fetch_10k_sections(ticker: str) -> List[Dict[str, Any]]:
                 "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001652044&type=10-K",
                 "text_content": """Total revenues were $307.4 billion, an increase of 9% year-over-year. Google Search and other advertising revenues were $175.0 billion. YouTube advertising revenues were $31.5 billion. Google Cloud revenues were $33.1 billion, an increase of 26%. Operating income was $84.3 billion, representing an operating margin of 27%. Net income was $73.8 billion, an increase of 23% compared to the prior year."""
             }
+        ],
+        "TSLA": [
+            {
+                "section_header": "Business Overview",
+                "year": "2023",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K",
+                "text_content": """Tesla, Inc. designs, develops, manufactures, sells and leases high-performance fully electric vehicles and energy generation and storage systems, and offers services related to its sustainable energy products. The Company generally sells its products directly to customers, and continues to grow its customer-facing infrastructure through a global network of vehicle service centers, Mobile Service technicians, body shops, Supercharger stations, and Destination Chargers to accelerate the widespread adoption of sustainable energy."""
+            },
+            {
+                "section_header": "Risk Factors",
+                "year": "2023",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K",
+                "text_content": """We have experienced in the past, and may experience in the future, delays or other complications in the design, manufacture, launch, and production ramp of our vehicles and other products. Our future growth and success is dependent upon consumers' willingness to adopt electric vehicles. We face strong competition for our products and services from automotive manufacturers and other companies. We may be subject to product liability claims, which could harm our financial condition."""
+            },
+            {
+                "section_header": "Financial Data",
+                "year": "2023",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-K",
+                "text_content": """Total revenues were $96.8 billion, an increase of 19% year-over-year. Automotive revenues were $82.4 billion, reflecting growth in vehicle deliveries. Energy generation and storage revenues reached $6.0 billion. Gross margin was 18.2%, down from 25.6% in the prior year due to price reductions and higher costs. Net income attributable to common stockholders was $15.0 billion, primarily driven by a one-time non-cash tax benefit."""
+            }
+        ],
+        "NVDA": [
+            {
+                "section_header": "Business Overview",
+                "year": "2024",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001045810&type=10-K",
+                "text_content": """NVIDIA Corporation pioneered accelerated computing. A specialized computer chip, the graphics processing unit (GPU), is the engine of accelerated computing. The Company operates in two reportable segments: Compute & Networking and Graphics. NVIDIA's platform addresses four large markets: Data Center, Gaming, Professional Visualization, and Automotive. NVIDIA AI remains the standard for accelerated computing in the data center, which is the Company's largest market."""
+            },
+            {
+                "section_header": "Risk Factors",
+                "year": "2024",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001045810&type=10-K",
+                "text_content": """Failure to meet the evolving needs of our customers could damage our relationships and harm our business and financial results. We face intense competition in our industries. Global economic and political conditions, including trade tensions and regulations concerning AI, could harm our business. We depend on third-party suppliers for the manufacturing, packaging, and testing of our products, and any failure by these suppliers would impact our ability to meet demand."""
+            },
+            {
+                "section_header": "Financial Data",
+                "year": "2024",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001045810&type=10-K",
+                "text_content": """Revenue for fiscal year 2024 was $60.9 billion, up 126% from a year ago. Data Center revenue was $47.5 billion, up 217%, driven by strong demand for the NVIDIA HGX platform for AI training and inference. Gaming revenue was $10.4 billion, up 15%. GAAP operating income was $33.0 billion, up 681%. GAAP net income was $29.8 billion, up 581% from the previous year."""
+            }
+        ],
+        "AMZN": [
+            {
+                "section_header": "Business Overview",
+                "year": "2023",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001018724&type=10-K",
+                "text_content": """Amazon.com, Inc. seeks to be Earth's most customer-centric company. The Company operates through three segments: North America, International, and Amazon Web Services (AWS). Amazon serves consumers through its online and physical stores and focuses on selection, price, and convenience. The Company also manufactures and sells electronic devices, including Kindle, Fire tablet, Fire TV, Echo, and Ring. AWS offers a broad set of on-demand technology services, including compute, storage, database, and analytics."""
+            },
+            {
+                "section_header": "Risk Factors",
+                "year": "2023",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001018724&type=10-K",
+                "text_content": """We face intense competition. Our expansion into new products, services, technologies, and geographic regions subjects us to additional business, legal, financial, and competitive risks. We rely on IT systems and networks, and any disruption or security breach could significantly affect our business. We are subject to complex laws and regulations, including antitrust, privacy, and data protection. Successful engagement of our workforce and management of our fulfillment centers are critical."""
+            },
+            {
+                "section_header": "Financial Data",
+                "year": "2023",
+                "source_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001018724&type=10-K",
+                "text_content": """Net sales increased 12% to $574.8 billion in 2023. North America segment sales increased 12% to $352.7 billion. International segment sales increased 11% to $131.2 billion. AWS segment sales increased 13% to $90.8 billion. Operating income increased to $36.9 billion, compared with $12.2 billion in 2022. Net income was $30.4 billion, or $2.90 per diluted share, compared with a net loss of $2.7 billion in 2022."""
+            }
         ]
     }
     
@@ -269,7 +332,7 @@ def main():
         print("Please set OPENAI_API_KEY and PINECONE_API_KEY environment variables.")
         sys.exit(1)
     
-    tickers = ["AAPL", "MSFT", "GOOGL"] if args.ticker == "ALL" else [args.ticker]
+    tickers = ["AAPL", "MSFT", "GOOGL", "TSLA", "NVDA", "AMZN"] if args.ticker == "ALL" else [args.ticker]
     
     total_vectors = 0
     for ticker in tickers:
